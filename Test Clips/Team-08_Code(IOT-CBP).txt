@@ -1,0 +1,62 @@
+%%Taking input from KINECT V1.
+vid = videoinput('kinect', 1, 'Infrared_640x480');
+
+vid.ReturnedColorspace = 'rgb'; %RGB format picture.
+
+[input, metadata] = getsnapshot(vid); %Captures a snapshot of stream of data.
+imshow(Input); 
+
+
+%% Converting to grayscale and then to  binary image.
+input=imread("Leaf_Test.jpg");
+% Converting to Gray scale image.
+New_INPUT = rgb2gray(input); 
+
+% Converting to Binary image.
+% BW = imbinarize(Input,Threshold) 
+% This creates a binary image from image I using the threshold value T. 
+Object = imbinarize(New_INPUT,0.8);
+
+%Display of binary image.
+imshow(Object);
+New_INPUT
+%% Eleminating small objects
+bw=bwareaopen(Object,1000)
+imshow(bw)
+
+
+%% Finding area of object using bwarea() function.
+
+% Black pixel: Off-->0   White pixel: On-->1
+% Patterns with zero on pixels (area = 0)
+% Patterns with one on pixel (area = 1/4)
+% Patterns with two adjacent on pixels (area = 1/2)
+% Patterns with two diagonal on pixels (area = 3/4)
+% Patterns with three on pixels (area = 7/8)
+% Patterns with all four on pixels (area = 1)
+
+%Area Calculation:
+Area_of_Object = bwarea(Object);
+Area_of_Object
+
+
+%% Calculating are through perimeter: bwperim() and imfill()
+
+% New_BinaryImage = bwperim(BinaryImage,connectivity)
+Perimeter_of_Object = bwperim(Object,4);
+
+montage({Object,Perimeter_of_Object},'BackgroundColor','Red','BorderSize',3);
+%imshowpair(Object,Perimeter_of_Object,'montage');
+
+
+%% Filling area Using imfill():
+% New_BinaryImage = imfill(BinaryImage,connectivity,'holes') 
+Object_2 = imfill(Perimeter_of_Object,4,'holes');
+
+montage({Input,Object,Perimeter_of_Object,Object_2},'BackgroundColor','Red','BorderSize',3);
+
+
+%% Calculating Area.
+%Calculating Area using bwarea()
+Area_of_Object_2 = bwarea(Object_2);
+Area_of_Object_2
