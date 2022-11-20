@@ -1,2 +1,3 @@
 # Plant-Height-Detection-using-Kinect-v1-Sensor
-## MATLAB
+## INTRODUCTION 
+Palnt height Detection mechanism is widely used for Reseach purposes.
